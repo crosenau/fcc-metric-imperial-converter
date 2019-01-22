@@ -40,11 +40,11 @@ class ConvertHandler {
     
     if (!letterMatch) return error;
     
-    const unitMatch = this.units.filter(unitObj => unitObj.symbol.toLowerCase() === letterMatch[0].toLowerCase());
+    const unitMatch = this.units.find(unitObj => unitObj.symbol.toLowerCase() === letterMatch[0].toLowerCase());
     
-    if (unitMatch.length === 0) return error;
+    if (!unitMatch) return error;
     
-    return unitMatch[0].symbol;
+    return unitMatch.symbol;
   };
   
   getReturnUnit(initUnit) {
