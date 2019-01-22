@@ -6,75 +6,74 @@
 *       
 */
 
-function ConvertHandler() {
+class ConvertHandler {
+  constructor() {
+    this.units = [
+      { symbol: 'gal', name: 'gallons',    convertsTo: 'L',   convert: (input) => input * 3.78541,  },
+      { symbol: 'L',   name: 'liters',     convertsTo: 'gal', convert: (input) => input / 3.78541,  },
+      { symbol: 'mi',  name: 'miles',      convertsTo: 'km' , convert: (input) => input * 1.60934,  },
+      { symbol: 'km',  name: 'kilometers', convertsTo: 'mi' , convert: (input) => input / 1.60934,  },
+      { symbol: 'lbs', name: 'pounds',     convertsTo: 'kg' , convert: (input) => input * 0.453592, },
+      { symbol: 'kg',  name: 'kilograms',  convertsTo: 'lbs', convert: (input) => input / 0.453592, }
+    ];
+  }
   
-  this.getNum = function(input) {
-    console.log('input: ', input);
-    if (input.search(/\/.*\//) !== -1) {
-      const e = new Error('invalid number');
-      //console.error(e);
-      return e;
-    }
+  getNum(input) {
+    // Catch double fractions
+    if (input.search(/\/.*\//) !== -1) return new Error('invalid number');
 
-    const numeric = input.match(/^\d*\.?\d+(\/?\d*\.?\d+)?/);
+    const numericMatch = input.match(/^\d*\.?\d+(\/?\d*\.?\d+)?/);
     
-    if (!numeric) return 1;
+    if (!numericMatch) return 1;
     
-    const numArr = numeric[0]
+    const numArr = numericMatch[0]
       .split('/')
       .map(str => Number(str));
     const result = numArr.reduce((acc, cur) => acc / cur);
     
-    console.log('result: ', result);
     return result;
   };
   
-  this.getUnit = function(input) {
-    console.log('input: ', input);
-    const letters = input.match(/[A-Za-z]+$/)
-    console.log('letters: ', letters);
+  getUnit(input) {
+    const letterMatch = input.match(/[A-Za-z]+$/);
+    const error = new Error('invalid unit');
     
+    if (!letterMatch) return error;
     
-    if (input.search(/[a-z]\d/) !== -1) {
-      const e = new Error('invalid unit');
-      //console.error(e);
-      return e;
+    const unitMatch = this.units.filter(unitObj => unitObj.symbol.toLowerCase() === letterMatch[0].toLowerCase());
+    
+    if (unitMatch.length === 0) return error;
+    
+    return unitMatch[0].symbol;
+  };
+  
+  getReturnUnit(initUnit) {
+    for (let unit of this.units) {
+      if (unit.symbol.toLowerCase() === initUnit.toLowerCase()) {
+        return unit.convertsTo;
+      }
     }
-    
-    var result;
-    
-    return result;
-  };
-  
-  this.getReturnUnit = function(initUnit) {
-    
-    
-    var result;
-    
-    return result;
   };
 
-  this.spellOutUnit = function(unit) {
-    var result;
-    
-    return result;
+  spellOutUnit(inputUnit) {
+    for (let unit of this.units) {
+      if (unit.symbol.toLowerCase() === inputUnit.toLowerCase()) {
+        return unit.name;
+      }
+    }
   };
   
-  this.convert = function(initNum, initUnit) {
-    const galToL = 3.78541;
-    const lbsToKg = 0.453592;
-    const miToKm = 1.60934;
-    var result;
-    
-    return result;
+  convert(initNum, initUnit) {
+    for (let unit of this.units) {
+      if (unit.symbol.toLowerCase() === initUnit.toLowerCase()) {
+        return Number(unit.convert(initNum).toFixed(5));
+      }
+    }
   };
   
-  this.getString = function(initNum, initUnit, returnNum, returnUnit) {
-    var result;
-    
-    return result;
+  getString(initNum, initUnit, returnNum, returnUnit) {
+    return `${initNum} ${this.spellOutUnit(initUnit)} converts to ${returnNum} ${this.spellOutUnit(returnUnit)}`;
   };
-  
 }
 
 module.exports = ConvertHandler;
