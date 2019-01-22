@@ -9,12 +9,12 @@
 class ConvertHandler {
   constructor() {
     this.units = [
-      { symbol: 'gal', name: 'gallons',    convertsTo: 'L',   convert: (input) => input * 3.78541,  },
-      { symbol: 'L',   name: 'liters',     convertsTo: 'gal', convert: (input) => input / 3.78541,  },
-      { symbol: 'mi',  name: 'miles',      convertsTo: 'km' , convert: (input) => input * 1.60934,  },
-      { symbol: 'km',  name: 'kilometers', convertsTo: 'mi' , convert: (input) => input / 1.60934,  },
-      { symbol: 'lbs', name: 'pounds',     convertsTo: 'kg' , convert: (input) => input * 0.453592, },
-      { symbol: 'kg',  name: 'kilograms',  convertsTo: 'lbs', convert: (input) => input / 0.453592, }
+      { symbol: 'gal', name: 'gallons', convertsTo: 'L', convert: (input) => input * 3.78541 },
+      { symbol: 'L', name: 'liters', convertsTo: 'gal', convert: (input) => input / 3.78541 },
+      { symbol: 'mi', name: 'miles', convertsTo: 'km', convert: (input) => input * 1.60934 },
+      { symbol: 'km', name: 'kilometers', convertsTo: 'mi', convert: (input) => input / 1.60934 },
+      { symbol: 'lbs', name: 'pounds', convertsTo: 'kg', convert: (input) => input * 0.453592 },
+      { symbol: 'kg', name: 'kilograms', convertsTo: 'lbs', convert: (input) => input / 0.453592 }
     ];
   }
   
